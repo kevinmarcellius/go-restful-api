@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/aronipurwanto/go-restful-api/model/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -10,7 +11,7 @@ import (
 
 // NewDB initializes the database connection using GORM
 func NewDB() *gorm.DB {
-	dsn := "ok:ok@tcp(localhost:3306)/mydatabase?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "myuser:mypassword@tcp(localhost:3306)/mydatabase?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info), // Logging SQL queries
 	})
@@ -28,6 +29,7 @@ func NewDB() *gorm.DB {
 	sqlDB.SetMaxOpenConns(20)
 	sqlDB.SetConnMaxLifetime(60 * time.Minute)
 	sqlDB.SetConnMaxIdleTime(10 * time.Minute)
+	db.AutoMigrate(&domain.Product{}, &domain.Category{})
 
 	log.Println("Database connected successfully!")
 	return db

@@ -12,6 +12,25 @@ func ToCategoryResponse(category domain.Category) web.CategoryResponse {
 	}
 }
 
+func ToProductResponse(product domain.Product) web.ProductResponse {
+	return web.ProductResponse{
+		ProductID:   product.ProductID,
+		Name:        product.Name,
+		Description: product.Description,
+		StockQty:    product.StockQty,
+		SKU:         product.SKU,
+		TaxRate:     product.TaxRate,
+		CategoryId:  product.CategoryID,
+	}
+}
+
+func ToProductListResponse(products []domain.Product) []web.ProductResponse {
+	var productResponses []web.ProductResponse
+	for _, product := range products {
+		productResponses = append(productResponses, ToProductResponse(product))
+	}
+	return productResponses
+}
 func ToCategoryResponses(categories []domain.Category) []web.CategoryResponse {
 	var categoryResponses []web.CategoryResponse
 	for _, category := range categories {
